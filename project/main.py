@@ -1,4 +1,13 @@
+import os
 from text_data_01 import questions_01
+
+from text_data_01 import questions_01
+from text_data_02 import questions_02
+from text_data_03 import questions_03
+
+import os
+clear = lambda: os.system('cls')
+
 
 #3명의 인물 선택지
 women = ["선배", "동갑", "후배"]
@@ -11,6 +20,7 @@ score3 = 0 #인물별 연애점수
 
 #10개의 반복질문 함수
 def question10(woman):
+    clear()
     for question in woman:
         for i in question[0]:
             print(i)
@@ -23,6 +33,7 @@ def question10(woman):
         print(f"상대방 : {question[2][sel-1]}")
         global score1 
         score1 += question[3][sel-1]
+        clear()
 
 
 
@@ -40,9 +51,9 @@ while running:
         if chosen_woman == "선배":
             question10(questions_01)
         elif chosen_woman == "동갑":
-            question10(questions_01)
+            question10(questions_02)
         elif chosen_woman == "후배":
-            question10(questions_01)
+            question10(questions_03)
 
     else:
         print("세 명의 여자와 모두 사귀게 된 홍식, 그는 쓰레기로 낙인찍혀 영원히 사회에서 격리된다...")
@@ -54,3 +65,4 @@ while running:
 #연애를 더한다 / 여기서 마친다
 #while 반복문 끝.
 #최종엔딩.
+
