@@ -9,7 +9,7 @@ clear = lambda: os.system('cls') # 화면청소기능
 # 3명의 인물 선택지
 women = ["선배", "동갑", "후배", "끝"]
 
-  
+
 
 # 화면구분 UI
 def line():
