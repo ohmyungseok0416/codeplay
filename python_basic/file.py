@@ -12,3 +12,10 @@ f.readlines()
 
 f.close()
 #불러온 파일을 닫아줌
+
+f = open("test.txt", "r", encoding = "UTF-8")
+line = f.readline()
+lines = f.readlines()
+print(line)
+print(lines)
+f.close()
