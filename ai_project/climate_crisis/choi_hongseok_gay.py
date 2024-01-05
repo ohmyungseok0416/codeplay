@@ -1,77 +1,73 @@
 import pygame
-import random
 
-# Pygame 초기화
 pygame.init()
 
-# 창 설정
+# 화면 크기
 WIDTH, HEIGHT = 800, 600
 win = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("홍석과 태민의 여행")
+pygame.display.set_caption("태민의 여정")
 
-# 색상 정의
+# 색상
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GREEN = (0, 255, 0)
 
 # 한글 폰트 설정
 pygame.font.init()
-font_path = pygame.font.match_font('arial')  # 한글 폰트 경로 설정
-font = pygame.font.Font(font_path, 40)  # 폰트 객체 생성
+font_path = pygame.font.match_font('malgun Gothic')  # 맑은 고딕 폰트 경로 설정
+font = pygame.font.Font(font_path, 30)  # 폰트 객체 생성
 
-# 지역과 힌트를 포함한 딕셔너리
-locations = {
-    "어둠의 종말": "북극: 얼음이 녹고 있는 북극은 온실 가스 배출량을 줄이는 것이 중요합니다.",
-    "칠흑의 멸망": "아마존: 산불로 인한 파괴를 막기 위해 산림 보호와 재배가 필요합니다.",
-    "칠흑의 종결": "태평양: 해양 생태계를 보호하기 위해 해양 청소와 재활용이 필요합니다.",
-    "빛 없는 종말": "신재생 에너지: 태양, 바람, 물 등의 신재생 에너지는 환경 친화적입니다."
-}
+# 스토리와 선택지
+story = [
+    "태민은 환경변화로 빠르게 녹고 있는 북극에 도착했습니다. 얼음이 녹고 있는 모습을 보며 온실 가스 배출이 지구에 미치는 영향에 대해 깨달았습니다.",
+    "1. 극지방 도착",
+    "2. 산란기 지원 도착",
+    "3. 생존을 위한 자원 수집",
+    "4. 어린 아이와의 만남",
+    "5. 자원 부족과 갈등",
+    "6. 구조를 위한 노력",
+    "7. 결말"
+]
 
-def display_text(text):
-    text_surface = font.render(text, True, BLACK)
-    return text_surface, text_surface.get_rect()
+# 선택지
+choices = [
+    ("1. 극지방 도착", "2. 산란기 지원 도착"),
+    ("3. 생존을 위한 자원 수집", "4. 어린 아이와의 만남"),
+    ("5. 자원 부족과 갈등", "6. 구조를 위한 노력"),
+    ("7. 결말", "8. 끝내기")
+]
 
-def game():
+def display_text(text, x, y, color=BLACK):
+    text_surface = font.render(text, True, color)
+    win.blit(text_surface, (x, y))
+
+def main():
     running = True
-    selected_location = None
+    current_stage = 0
 
     while running:
         win.fill(WHITE)
+        display_text(story[current_stage], 50, 50)
+
+        choice1, choice2 = choices[current_stage]
+        display_text(choice1, 300, 0)
+        display_text(choice2, -300, 0)
+
+        pygame.display.update()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    running = False
-
-        if selected_location is None:
-            text_surf, text_rect = display_text("지역을 선택해주세요! (1, 2, 3, 4 중 선택)")
-            text_rect.center = (WIDTH // 2, HEIGHT // 2)
-            win.blit(text_surf, text_rect)
-
-            # 지역을 창에 표시
-            y = 50
-            for i, location in enumerate(locations.keys(), start=1):
-                text_surf, text_rect = display_text(f"{i}. {location}")
-                text_rect.center = (WIDTH // 2, y)
-                win.blit(text_surf, text_rect)
-                y += 50
-
-            # 플레이어 선택 처리
-            keys = pygame.key.get_pressed()
-            for i, location in enumerate(locations.keys()):
-                if keys[pygame.K_1 + i]:
-                    selected_location = location
-                    break
-        else:
-            hint_text = locations[selected_location]
-            text_surf, text_rect = display_text(f"{selected_location}을 선택하셨습니다. 힌트: {hint_text}")
-            text_rect.center = (WIDTH // 2, HEIGHT // 2)
-            win.blit(text_surf, text_rect)
-
-        pygame.display.update()
+                if event.key == pygame.K_1:
+                    current_stage += 1
+                    if current_stage >= len(story):
+                        current_stage = len(story) - 1
+                elif event.key == pygame.K_2:
+                    current_stage += 2
+                    if current_stage >= len(story):
+                        current_stage = len(story) - 1
 
     pygame.quit()
 
-# 게임 실행
-game()
+if __name__ == "__main__":
+    main()
